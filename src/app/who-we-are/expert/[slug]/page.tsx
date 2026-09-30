@@ -72,6 +72,35 @@ export function generateStaticParams() {
   return EXPERTS.map((e) => ({ slug: e.slug }));
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const expert = EXPERTS.find((e) => e.slug === slug);
+  if (!expert) return {};
+
+  const description = expert.bio[0].length > 155
+    ? expert.bio[0].slice(0, 152) + "..."
+    : expert.bio[0];
+
+  return {
+    title: expert.name,
+    description,
+    alternates: {
+      canonical: `/who-we-are/expert/${expert.slug}`,
+    },
+    openGraph: {
+      title: `${expert.name} — ${expert.role} | Artic Analytica`,
+      description,
+      url: `/who-we-are/expert/${expert.slug}`,
+      images: expert.image ? [{ url: expert.image }] : undefined,
+    },
+    twitter: {
+      title: `${expert.name} — ${expert.role} | Artic Analytica`,
+      description,
+    },
+  };
+}
+
+
 export default async function ExpertProfilePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const expert = EXPERTS.find((e) => e.slug === slug);

@@ -424,11 +424,34 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const { id } = await params;
   const work = WORKS.find((w) => String(w.id) === id);
   if (!work) return {};
+
+  // Truncate description to ~155 chars for SEO
+  const description =
+    work.overview.body.length > 155
+      ? work.overview.body.slice(0, 152) + "..."
+      : work.overview.body;
+
   return {
-    title: `${work.title} | Artic Analytica`,
-    description: work.overview.body,
+    title: work.title,
+    description,
+    alternates: {
+      canonical: `/works/${work.id}`,
+    },
+    openGraph: {
+      title: `${work.title} | Artic Analytica`,
+      description,
+      url: `/works/${work.id}`,
+      type: "article",
+      images: work.heroImage ? [{ url: work.heroImage }] : undefined,
+    },
+    twitter: {
+      title: `${work.title} | Artic Analytica`,
+      description,
+      images: work.heroImage ? [work.heroImage] : undefined,
+    },
   };
 }
+
 
 export default async function WorksDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

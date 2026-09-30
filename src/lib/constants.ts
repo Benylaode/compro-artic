@@ -58,8 +58,27 @@ export const SERVICES = [
   },
 ] as const;
 
+/**
+ * Returns the production site URL from env var with a safe fallback.
+ * Use this everywhere canonical URLs, sitemap, or OG metadata reference the domain.
+ */
+export function getSiteUrl(): string {
+  return (
+    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, "") ||
+    "https://articanalytica.com"
+  );
+}
+
 export const SITE_CONFIG = {
   name: "Artic Analytica",
-  description: "We help governments, businesses, and organizations make smarter decisions through research, data, and strategy that actually make sense.",
-  url: "https://articanalytica.com",
+  tagline: "Where Data Meets Strategy",
+  description:
+    "We help governments, businesses, and organizations make smarter decisions through research, data, and strategy that actually make sense.",
+  get url() {
+    return getSiteUrl();
+  },
+  locale: "en_US",
+  twitter: "@articanalytica",
+  instagram: "artic.analytica",
+  linkedin: "articanalytica",
 } as const;

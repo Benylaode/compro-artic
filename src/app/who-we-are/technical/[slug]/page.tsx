@@ -24,6 +24,34 @@ export function generateStaticParams() {
   return TECHNICAL_TEAM.map((m) => ({ slug: m.slug }));
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const member = TECHNICAL_TEAM.find((m) => m.slug === slug);
+  if (!member) return {};
+
+  const description = member.bio[0].length > 155
+    ? member.bio[0].slice(0, 152) + "..."
+    : member.bio[0];
+
+  return {
+    title: member.name,
+    description,
+    alternates: {
+      canonical: `/who-we-are/technical/${member.slug}`,
+    },
+    openGraph: {
+      title: `${member.name} — ${member.role} | Artic Analytica`,
+      description,
+      url: `/who-we-are/technical/${member.slug}`,
+    },
+    twitter: {
+      title: `${member.name} — ${member.role} | Artic Analytica`,
+      description,
+    },
+  };
+}
+
+
 export default async function TechnicalProfilePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const member = TECHNICAL_TEAM.find((m) => m.slug === slug);

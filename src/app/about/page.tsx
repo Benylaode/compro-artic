@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { AboutHeroSection } from "@/components/sections/about-hero-section";
@@ -7,10 +8,24 @@ import { AboutVisionSection } from "@/components/sections/about-vision-section";
 import { AboutWhySection } from "@/components/sections/about-why-section";
 import { AboutHighlightSection } from "@/components/sections/about-highlight-section";
 
-export const metadata = {
-  title: "About Artic | Artic Analytica",
+export const metadata: Metadata = {
+  title: "About Artic",
   description:
     "Artic Analytica is a multidisciplinary research and strategy firm supporting governments, businesses, and organizations in making better, clearer, and more human-centered decisions.",
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: "About Artic | Artic Analytica",
+    description:
+      "Artic Analytica is a multidisciplinary research and strategy firm supporting governments, businesses, and organizations in making better, clearer, and more human-centered decisions.",
+    url: "/about",
+  },
+  twitter: {
+    title: "About Artic | Artic Analytica",
+    description:
+      "Artic Analytica is a multidisciplinary research and strategy firm supporting governments, businesses, and organizations in making better, clearer, and more human-centered decisions.",
+  },
 };
 
 export default function AboutPage() {
